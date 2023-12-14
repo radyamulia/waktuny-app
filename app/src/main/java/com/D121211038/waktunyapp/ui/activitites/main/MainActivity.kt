@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -59,6 +60,9 @@ import com.D121211038.waktunyapp.data.models.TimesWire
 import com.D121211038.waktunyapp.data.models.TopStory
 import com.D121211038.waktunyapp.ui.layout.bottomnavigation.BottomNavigation
 import com.D121211038.waktunyapp.ui.theme.WaktuNYAppTheme
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -101,8 +105,6 @@ class MainActivity : ComponentActivity() {
 //                            }
 //                        },
                         modifier = Modifier
-                            .padding(10.dp)
-                            .scrollable(rememberScrollState(), Orientation.Vertical)
                     ) {
                         Column(
                             modifier = Modifier.padding(it)
@@ -142,6 +144,7 @@ class MainActivity : ComponentActivity() {
     fun TimesWireCard(timesWireItem: TimesWire, modifier: Modifier = Modifier) {
         Log.d("TimesWireCard", timesWireItem.toString() ?: "none" )
         Card(
+            shape = RoundedCornerShape(0.dp),
             colors = CardDefaults.cardColors(Color.Transparent),
             modifier = Modifier
                 .fillMaxWidth()
@@ -168,19 +171,26 @@ class MainActivity : ComponentActivity() {
                         fontWeight = FontWeight.Bold,
                         lineHeight = 1.em,
                         maxLines = 3,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Justify
+                        overflow = TextOverflow.Ellipsis
                     )
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(3.dp))
                     Text(
                         text = timesWireItem.jsonMemberAbstract ?: "no description",
-                        fontSize = 3.em,
+                        fontSize = 2.5.em,
+                        lineHeight = 1.em,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Text(
+                        text = timesWireItem.byline ?: "by Unknown",
+                        fontSize = 2.em,
                         lineHeight = 1.em,
                     )
                 }
             }
         }
-        Divider(color = Color.Gray.copy(alpha = 0.3f))
+        Divider(color = Color.Gray.copy(alpha = 0.3f), modifier = Modifier.padding(6.dp, 0.dp))
     }
 
     @Composable
@@ -194,45 +204,44 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun TopStoriesCard(topStoriesItem: TopStory, modifier: Modifier = Modifier) {
-        Log.d("TopStoriesCard", topStoriesItem.toString() ?: "none" )
+        val isoDate = topStoriesItem.publishedDate
+
+        val formatter = DateTimeFormatter.ISO_DATE_TIME
+        val parsedDate = LocalDate.parse(isoDate, formatter)
+
+        val customFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
+        val formattedDate = parsedDate.format(customFormatter)
+
+//        Log.d("TopStoriesCard", topStoriesItem.toString() ?: "none" )
         Card(
+            shape = RoundedCornerShape(0.dp),
             colors = CardDefaults.cardColors(Color.Transparent),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(6.dp, 10.dp)
-                .height(100.dp)
+                .height(48.dp)
         ) {
             Row {
-                Image(
-                    painter = rememberAsyncImagePainter(topStoriesItem.multimedia?.get(0)?.url),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(100.dp)
-                        .width(100.dp)
-                        .background(Color.Transparent)
-                )
-
-                Spacer(modifier = Modifier.width(14.dp))
-
                 Column(
                     modifier = Modifier.padding(0.dp, 0.dp, 14.dp, 0.dp)
                 ) {
                     Text(
                         text = topStoriesItem.title ?: "Ini title",
                         fontWeight = FontWeight.Bold,
+                        fontSize = 3.em,
                         lineHeight = 1.em,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "${topStoriesItem.publishedDate}",
-                        fontSize = 3.em
+                        text = formattedDate,
+                        fontSize = 2.em
                     )
                 }
             }
         }
-        Divider(color = Color.Gray.copy(alpha = 0.3f))
+        Divider(color = Color.Gray.copy(alpha = 0.3f), modifier = Modifier.padding(6.dp, 0.dp))
     }
 
     @Composable
@@ -248,33 +257,62 @@ class MainActivity : ComponentActivity() {
     fun BestSellerBooksCard(bestSellerBooksItem: BestSellerBook, modifier: Modifier = Modifier) {
         Log.d("BooksCard", bestSellerBooksItem.toString() ?: "none" )
         Card(
+            shape = RoundedCornerShape(0.dp),
             colors = CardDefaults.cardColors(Color.Transparent),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(6.dp, 10.dp)
-                .height(100.dp)
+                .height(200.dp)
+                .width(130.dp)
         ) {
-            Column {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Image(
                     painter = rememberAsyncImagePainter(bestSellerBooksItem.bookImage),
                     contentDescription = null,
                     modifier = Modifier
+                        .width(70.dp)
                         .height(100.dp)
-                        .width(100.dp)
                         .background(Color.Transparent)
                 )
 
-                Spacer(modifier = Modifier.width(14.dp))
+                Spacer(modifier = Modifier
+                    .height(8.dp)
+                )
 
                 Column(
-                    modifier = Modifier.padding(0.dp, 0.dp, 14.dp, 0.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
                     Text(
-                        text = bestSellerBooksItem.title ?: "Ini title",
-                        fontWeight = FontWeight.Bold,
+                        text = "${bestSellerBooksItem.weeksOnList} WEEKS ON THE LIST",
+                        fontWeight = FontWeight.Light,
+                        lineHeight = 1.em,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 2.em
+                    )
+                    Text(
+                        text = bestSellerBooksItem.title ?: "Untitled",
+                        fontWeight = FontWeight.Medium,
                         lineHeight = 1.em,
                         maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 3.em
+                    )
+                    Text(
+                        text = "by ${bestSellerBooksItem.author ?: " Unknown "}",
+                        lineHeight = 1.em,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 3.em
+                    )
+                    Text(
+                        text = bestSellerBooksItem.description ?: "no description",
+                        lineHeight = 1.em,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 2.5.em
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                 }
@@ -299,7 +337,11 @@ class MainActivity : ComponentActivity() {
         books: List<BestSellerBook>,
         modifier: Modifier = Modifier
     ) {
-        Column(modifier = Modifier) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -332,10 +374,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                 }
-                Column {
-                    TimesWireList(timesWire)
-                }
             }
+            TimesWireList(timesWire, Modifier.height(340.dp))
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -360,10 +400,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                 }
-                Column {
-                    TopStoriesList(topStories = topStories)
-                }
             }
+            TopStoriesList(topStories, Modifier.height(220.dp))
 
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -386,10 +424,8 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(bottom = 2.dp)
                     )
                 }
-                Column {
-                    BestSellerBooksList(books = books)
-                }
             }
+            BestSellerBooksList(books, Modifier.height(300.dp))
         }
     }
 
