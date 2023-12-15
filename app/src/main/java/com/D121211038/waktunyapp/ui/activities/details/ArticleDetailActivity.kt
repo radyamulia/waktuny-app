@@ -42,6 +42,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -84,7 +85,7 @@ class ArticleDetailActivity: ComponentActivity() {
     fun DetailScreen(modifier: Modifier) {
         val navController = rememberNavController()
         Column(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(20.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -158,10 +159,10 @@ class ArticleDetailActivity: ComponentActivity() {
 
                 ) {
                     Text(
-                        text = "by ${selectedArticle?.byline ?: "Unknown"}",
+                        text = "${selectedArticle?.byline ?: "By Unknown"}",
                         fontSize = 3.em,
                         color = Color.Gray,
-                        lineHeight = 1.em ,
+                        lineHeight = 1.em,
                         modifier = Modifier.padding(50.dp, 0.dp)
                     )
                     Spacer(modifier = Modifier.height(25.dp))
@@ -195,22 +196,27 @@ class ArticleDetailActivity: ComponentActivity() {
                         textAlign = TextAlign.Justify
                     )
                     Spacer(modifier = Modifier.height(15.dp))
-                    Button(
-                        onClick = { context.startActivity(linkToArticle) },
-                        colors = ButtonDefaults.buttonColors(colorResource(R.color.primary))
-                    ) {
+//                    Button(
+//                        onClick = { context.startActivity(linkToArticle) },
+//                        colors = ButtonDefaults.buttonColors(colorResource(R.color.primary))
+//                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "Go to the link",
-                            color = Color.White,
-                            modifier = Modifier
+                            text = "READ MORE",
+                            color = colorResource(R.color.primary),
+                            textDecoration = TextDecoration.Underline,
+                            fontWeight = FontWeight.Light,
+                            fontSize = 3.em,
+                            modifier = Modifier.clickable { context.startActivity(linkToArticle) }
                         )
                         Spacer(modifier = Modifier.width(14.dp))
                         Image(
-                            painter = painterResource(R.drawable.ic_link),
+                            painter = painterResource(R.drawable.ic_link_primary),
                             contentDescription = null,
                             modifier = Modifier.size(12.dp)
                         )
                     }
+//                    }
                 }
             }
         }

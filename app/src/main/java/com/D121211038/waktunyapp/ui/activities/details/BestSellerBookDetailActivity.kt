@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -79,7 +81,7 @@ class BestSellerBookDetailActivity: ComponentActivity() {
     fun DetailScreen(modifier: Modifier) {
         val navController = rememberNavController()
         Column(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(20.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -176,7 +178,7 @@ class BestSellerBookDetailActivity: ComponentActivity() {
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 Column {
                     Text(
                         text = "Book Description",
@@ -190,32 +192,38 @@ class BestSellerBookDetailActivity: ComponentActivity() {
                     Spacer(modifier = Modifier.height(15.dp))
                     Button(
                         onClick = { context.startActivity(linkToAmazon) },
-                        colors = ButtonDefaults.buttonColors(colorResource(R.color.primary))
+                        colors = ButtonDefaults.buttonColors(Color.Transparent),
+                        modifier = Modifier
+                            .border(2.dp, colorResource(R.color.primary), RoundedCornerShape(50))
+                            .height(40.dp)
                     ) {
                         Text(
                             text = "Amazon product link",
-                            color = Color.White,
+                            color = colorResource(R.color.primary),
+                            fontSize = 3.em,
                             modifier = Modifier
                         )
                         Spacer(modifier = Modifier.width(14.dp))
                         Image(
-                            painter = painterResource(R.drawable.ic_link),
+                            painter = painterResource(R.drawable.ic_link_primary),
                             contentDescription = null,
                             modifier = Modifier.size(12.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.height(14.dp))
-                    Text(text = "other buy links:", color = Color.Gray)
+                    Spacer(modifier = Modifier.height(80.dp))
+                    Text(text = "other buy links:", color = Color.Gray, fontSize = 3.em)
                     Spacer(modifier = Modifier.height(8.dp))
                     LazyRow() {
                         items(selectedBook?.buyLinks?.drop(1) ?: emptyList<BuyLinksItem>()) {link ->
                             val linkToUrl = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link?.url)) }
                             Button(
                                 onClick = { context.startActivity(linkToUrl) },
-                                colors = ButtonDefaults.buttonColors(colorResource(R.color.primary))
+                                colors = ButtonDefaults.buttonColors(colorResource(R.color.primary)),
+                                modifier = Modifier.height(35.dp)
                             ) {
                                 Text(
-                                    text = link?.name ?: "link"
+                                    text = link?.name ?: "link",
+                                    fontSize = 2.5.em,
                                 )
                             }
                             Spacer(modifier = Modifier.width(4.dp))
