@@ -1,4 +1,3 @@
+# Waktu NY App
 
--- Development on process --
-
-An application built with compose 
+An application built using Jetpack Compose and NY Times API
