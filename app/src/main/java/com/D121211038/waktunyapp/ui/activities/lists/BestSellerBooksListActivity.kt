@@ -1,4 +1,4 @@
-package com.D121211038.waktunyapp.ui.activitites.search
+package com.D121211038.waktunyapp.ui.activities.lists
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,13 +10,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.D121211038.waktunyapp.ui.activitites.main.MainViewModel
+import com.D121211038.waktunyapp.ui.activities.main.MainViewModel
 import com.D121211038.waktunyapp.ui.layout.bottomnavigation.BottomNavigation
 import com.D121211038.waktunyapp.ui.theme.WaktuNYAppTheme
 
-class ArticleSearchActivity: ComponentActivity() {
+class BestSellerBooksListActivity: ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,8 @@ class ArticleSearchActivity: ComponentActivity() {
                         }
                     ) {
                         Column(modifier = Modifier.padding(it)) {
-                            val mainViewModel: MainViewModel = viewModel(factory = MainViewModel.Factory)
+                            Text("Ini Books List")
+
                         }
                     }
                 }

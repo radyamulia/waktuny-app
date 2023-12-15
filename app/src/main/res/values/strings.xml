@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Waktu NY App</string>
+    <string name="title_activity_detail_book">BestSellerBooksDetailActivity</string>
+    <string name="title_activity_list_books">BestSellerBooksListActivity</string>
+    <string name="title_activity_detail_article">ArticleDetailActivity</string>
+    <string name="title_activity_list_articles">ArticlesListActivity</string>
+    <string name="title_activity_search_article">ArticlesSearchActivity</string>
 </resources>

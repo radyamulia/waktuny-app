@@ -1,4 +1,4 @@
-package com.D121211038.waktunyapp.ui.activitites.main
+package com.D121211038.waktunyapp.ui.activities.main
 
 import android.util.Log
 import androidx.compose.runtime.getValue

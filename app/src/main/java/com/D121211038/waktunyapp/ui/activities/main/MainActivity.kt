@@ -1,53 +1,47 @@
-package com.D121211038.waktunyapp.ui.activitites.main
+package com.D121211038.waktunyapp.ui.activities.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,10 +52,10 @@ import com.D121211038.waktunyapp.R
 import com.D121211038.waktunyapp.data.models.BestSellerBook
 import com.D121211038.waktunyapp.data.models.TimesWire
 import com.D121211038.waktunyapp.data.models.TopStory
-import com.D121211038.waktunyapp.ui.layout.bottomnavigation.BottomNavigation
+import com.D121211038.waktunyapp.ui.activities.details.ArticleDetailActivity
+import com.D121211038.waktunyapp.ui.activities.details.BestSellerBookDetailActivity
 import com.D121211038.waktunyapp.ui.theme.WaktuNYAppTheme
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
@@ -73,38 +67,64 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.White
                 ) {
                     Scaffold(
-//                        bottomBar = {
-//                            BottomAppBar(
+                        containerColor = Color.White,
+                        bottomBar = {
+//                            Row(
+//                                horizontalArrangement = Arrangement.SpaceEvenly,
+//                                verticalAlignment = Alignment.CenterVertically,
 //                                modifier = Modifier
-//                                    .padding(20.dp, 0.dp)
+//                                    .width(500.dp)
+//                                    .height(50.dp)
+//                                    .padding(50.dp, 0.dp)
+//                                    .clip(shape = RoundedCornerShape(30.dp))
+//                                    .background(Color.Blue)
 //                            ) {
-//                                Row(
-//                                    horizontalArrangement = Arrangement.SpaceBetween,
-//                                    verticalAlignment = Alignment.CenterVertically,
-//                                    modifier = Modifier.width(130.dp)
+//                                Column(
+//                                    horizontalAlignment = Alignment.CenterHorizontally,
+//                                    modifier = Modifier
+//                                        .width(40.dp)
 //                                ) {
-//                                    Icon(
-//                                        painter = painterResource(R.drawable.ic_home),
+//                                    Image(
+//                                        painter = painterResource(R.drawable.ic_home_active),
 //                                        contentDescription = "icon",
-//                                        modifier = Modifier.size(30.dp)
+//                                        modifier = Modifier.size(25.dp)
 //                                    )
-//                                    Icon(
+//                                    Text(
+//                                        text = "Home",
+//                                        color = colorResource(R.color.primary),
+//                                        fontSize = 2.5.em,
+//                                        lineHeight = 1.em
+//                                    )
+//                                }
+//                                Column(
+//                                    horizontalAlignment = Alignment.CenterHorizontally,
+//                                    modifier = Modifier
+//                                        .width(40.dp)
+//                                ) {
+//                                    Image(
 //                                        painter = painterResource(R.drawable.ic_search),
 //                                        contentDescription = "icon",
-//                                        modifier = Modifier.size(30.dp)
+//                                        modifier = Modifier.size(25.dp)
 //                                    )
-//                                    Icon(
+//                                }
+//                                Column(
+//                                    horizontalAlignment = Alignment.CenterHorizontally,
+//                                    modifier = Modifier
+//                                        .width(40.dp)
+//                                ) {
+//                                    Image(
 //                                        painter = painterResource(R.drawable.ic_article),
 //                                        contentDescription = "icon",
-//                                        modifier = Modifier.size(30.dp)
+//                                        modifier = Modifier.size(25.dp)
 //                                    )
 //                                }
 //                            }
-//                        },
+                        },
                         modifier = Modifier
+                            .background(Color.Red)
                     ) {
                         Column(
                             modifier = Modifier.padding(it)
@@ -142,14 +162,18 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun TimesWireCard(timesWireItem: TimesWire, modifier: Modifier = Modifier) {
+        // External Link
+        val context = LocalContext.current
+        val linkToNews = remember { Intent(Intent.ACTION_VIEW, Uri.parse(timesWireItem.url)) }
         Log.d("TimesWireCard", timesWireItem.toString() ?: "none" )
         Card(
             shape = RoundedCornerShape(0.dp),
             colors = CardDefaults.cardColors(Color.Transparent),
             modifier = Modifier
                 .fillMaxWidth()
+                .height(120.dp)
                 .padding(6.dp, 10.dp)
-                .height(100.dp)
+                .clickable { context.startActivity(linkToNews) }
         ) {
             Row {
                 Image(
@@ -171,14 +195,6 @@ class MainActivity : ComponentActivity() {
                         fontWeight = FontWeight.Bold,
                         lineHeight = 1.em,
                         maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.height(3.dp))
-                    Text(
-                        text = timesWireItem.jsonMemberAbstract ?: "no description",
-                        fontSize = 2.5.em,
-                        lineHeight = 1.em,
-                        maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
                     Spacer(modifier = Modifier.height(3.dp))
@@ -220,6 +236,11 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .padding(6.dp, 10.dp)
                 .height(48.dp)
+                .clickable {
+                    val intent = Intent(this, ArticleDetailActivity::class.java)
+                    intent.putExtra("ARTICLE", topStoriesItem)
+                    startActivity(intent)
+                }
         ) {
             Row {
                 Column(
@@ -264,6 +285,11 @@ class MainActivity : ComponentActivity() {
                 .padding(6.dp, 10.dp)
                 .height(200.dp)
                 .width(130.dp)
+                .clickable {
+                    val intent = Intent(this, BestSellerBookDetailActivity::class.java)
+                    intent.putExtra("BOOK", bestSellerBooksItem)
+                    startActivity(intent)
+                }
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -298,21 +324,23 @@ class MainActivity : ComponentActivity() {
                         lineHeight = 1.em,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
-                        fontSize = 3.em
+                        fontSize = 3.5.em
                     )
                     Text(
                         text = "by ${bestSellerBooksItem.author ?: " Unknown "}",
                         lineHeight = 1.em,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
-                        fontSize = 3.em
+                        fontSize = 2.5.em
                     )
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = bestSellerBooksItem.description ?: "no description",
                         lineHeight = 1.em,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis,
-                        fontSize = 2.5.em
+                        fontSize = 2.5.em,
+                        color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                 }
@@ -413,7 +441,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Top Stories",
+                        text = "Best Seller Books",
                         fontWeight = FontWeight.Black,
                         fontSize = 4.em
                     )
@@ -425,7 +453,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-            BestSellerBooksList(books, Modifier.height(300.dp))
+            BestSellerBooksList(books, Modifier.height(250.dp))
         }
     }
 
