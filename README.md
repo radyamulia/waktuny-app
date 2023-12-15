@@ -8,7 +8,7 @@
 
 <div align="center">
     <p align="center">App Preview:</p>
-    <img width="100%" src="https://github.com/radyamulia/waktuny-app/assets/93360197/e19f365b-a9e2-4863-b8f3-72cbc1227d1e" alt="app preview">
+    <img width="100%" src="https://github.com/radyamulia/waktuny-app/assets/93360197/76febb7d-fee8-442b-adbf-54ac2bd3fb5f" alt="app preview">
 </div>
 
 <br />
