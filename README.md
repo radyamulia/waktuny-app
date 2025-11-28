@@ -10,10 +10,3 @@
     <p align="center">App Preview:</p>
     <img width="100%" src="https://github.com/radyamulia/waktuny-app/assets/93360197/76febb7d-fee8-442b-adbf-54ac2bd3fb5f" alt="app preview">
 </div>
-
-<br />
-<br />
-<br />
-<br />
-
-*more development coming soon
